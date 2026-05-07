@@ -1,97 +1,172 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Auto Minus</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .box {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  label {
-    font-size: 12px;
-    color: #bbb;
-    width: 80px;
-  }
-
-  input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
-
-  input {
-    width: 110px;
-    padding: 6px;
-    font-size: 14px;
-    text-align: right;
-  }
-
-  .result {
-    width: 110px;
-    padding: 6px;
-    background: #222;
-    border: 1px solid #555;
-    text-align: right;
-    user-select: none;
-  }
-
-  .copied {
-    font-size: 11px;
-    color: #4caf50;
-    display: none;
-    text-align: center;
-  }
-.top-gif {
-  position: fixed;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
+body {
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #3b2a00, #120d02);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
 }
 
-.top-gif img {
-  width: 500px;
-  height: auto;
-  display: block;
+/* GOLD NEON */
+
+@keyframes goldPulse {
+
+  0% {
+    box-shadow: 0 0 8px #ffd700, 0 0 20px #ffae00;
+    border-color: #ffd700;
+  }
+
+  50% {
+    box-shadow: 0 0 12px #fff3a1, 0 0 28px #ffcc00;
+    border-color: #fff3a1;
+  }
+
+  100% {
+    box-shadow: 0 0 8px #ffd700, 0 0 20px #ffae00;
+    border-color: #ffd700;
+  }
+
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: rgba(20,15,0,0.92);
+  padding: 30px;
+  border-radius: 16px;
+  border: 3px solid #ffd700;
+  animation: goldPulse 2s infinite;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* LOGO */
+
+.top-gif {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.top-gif img {
+  width: 260px;
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+/* INPUT */
+
+.box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+label {
+  font-size: 13px;
+  color: #ffd700;
+  width: 80px;
+  font-weight: bold;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input {
+  width: 120px;
+  padding: 8px;
+  font-size: 14px;
+  text-align: right;
+  border: 1px solid #ffd700;
+  background: #111;
+  color: #fff;
+  border-radius: 6px;
+  outline: none;
+}
+
+.result {
+  width: 120px;
+  padding: 8px;
+  background: #222;
+  border: 1px solid #ffd700;
+  text-align: right;
+  user-select: none;
+  border-radius: 6px;
+}
+
+.copied {
+  font-size: 11px;
+  color: #ffd700;
+  display: none;
+  text-align: center;
+}
+
+/* FOOTER */
+
+.footer {
   margin-top: 10px;
-}</style>
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media(max-width:600px){
+
+  .container{
+    padding:20px;
+  }
+
+  .box{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input,
+  .result{
+    width: 100%;
+  }
+
+  label{
+    width: 100%;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
-  
-<div class="top-gif">
-  <img src="https://imgstore.io/images/2026/02/01/logo-utama.gif">
-</div>
 
 <div class="container">
+
+  <!-- LOGO -->
+  <div class="top-gif">
+    <img 
+      id="logoGif"
+      src="https://imgstore.io/images/2026/02/01/logo-utama.gif">
+  </div>
 
   <!-- AUTO -1000 -->
   <div>
@@ -123,51 +198,173 @@
     <div class="copied" id="copied6500">Tersalin ✔</div>
   </div>
 
+  <!-- FOOTER -->
+  <div class="footer">
+    BUAT SENDIRI BOSS !!<br>
+    JANGAN MAIN CURI 😎
+  </div>
+
 </div>
 
 <script>
 
-function setupAutoMinus(inputId, hasilId, copiedId, minusValue) {
+/* WARNING */
 
-  const input = document.getElementById(inputId);
-  const hasil = document.getElementById(hasilId);
-  const copiedText = document.getElementById(copiedId);
+const WARNING_TEXT =
+"YANG PUNYA : OLXTOTO\nSILAHKAN PAKAI BOS!";
 
-  // Auto hitung
+/* POPUP LOGO */
+
+document
+.getElementById("logoGif")
+.addEventListener("click", () => {
+
+  alert(WARNING_TEXT);
+
+});
+
+/* GORILLA FULLSCREEN */
+
+function showGorilla() {
+
+  if(document.getElementById("gorilla-full"))
+    return;
+
+  const div = document.createElement("div");
+
+  div.id = "gorilla-full";
+
+  div.style.position = "fixed";
+  div.style.top = "0";
+  div.style.left = "0";
+  div.style.width = "100vw";
+  div.style.height = "100vh";
+  div.style.background = "black";
+  div.style.zIndex = "999999999";
+  div.style.display = "flex";
+  div.style.justifyContent = "center";
+  div.style.alignItems = "center";
+
+  div.innerHTML = `
+    <img 
+      src="https://rlv.zcache.co.uk/gorilla_finger_square_sticker-r2da3e881de9f42d298c0eeecfca328f6_zg2qg7_644.webp?rlvnet=1"
+      style="
+        width:100vw;
+        height:100vh;
+        object-fit:contain;
+      "
+    >
+  `;
+
+  document.body.appendChild(div);
+
+}
+
+/* CTRL+U + F12 */
+
+document.addEventListener("keydown", e => {
+
+  // CTRL + U
+  if(e.ctrlKey && e.key.toLowerCase() === "u"){
+
+    e.preventDefault();
+    showGorilla();
+
+  }
+
+  // F12
+  if(e.key === "F12"){
+
+    e.preventDefault();
+    showGorilla();
+
+  }
+
+});
+
+/* AUTO MINUS */
+
+function setupAutoMinus(
+  inputId,
+  hasilId,
+  copiedId,
+  minusValue
+){
+
+  const input =
+    document.getElementById(inputId);
+
+  const hasil =
+    document.getElementById(hasilId);
+
+  const copiedText =
+    document.getElementById(copiedId);
+
+  // AUTO HITUNG
+
   input.addEventListener("input", () => {
-    const val = parseInt(input.value) || 0;
-    hasil.textContent = val - minusValue;
+
+    const val =
+      parseInt(input.value) || 0;
+
+    hasil.textContent =
+      val - minusValue;
+
   });
 
-  // ENTER otomatis copy
-  input.addEventListener("keydown", (e) => {
+  // ENTER AUTO COPY
 
-    if (e.key === "Enter") {
+  input.addEventListener("keydown", e => {
+
+    if(e.key === "Enter"){
 
       e.preventDefault();
 
-      navigator.clipboard.writeText(hasil.textContent);
+      navigator.clipboard.writeText(
+        hasil.textContent
+      );
 
       copiedText.style.display = "block";
 
       setTimeout(() => {
+
         copiedText.style.display = "none";
-      }, 1000);
+
+      },1000);
 
       input.value = "";
       hasil.textContent = "0";
 
       input.focus();
+
     }
 
   });
 
 }
 
-// Setup
-setupAutoMinus("input1000", "hasil1000", "copied1000", 1000);
-setupAutoMinus("input2500", "hasil2500", "copied2500", 2500);
-setupAutoMinus("input6500", "hasil6500", "copied6500", 6500);
+/* SETUP */
+
+setupAutoMinus(
+  "input1000",
+  "hasil1000",
+  "copied1000",
+  1000
+);
+
+setupAutoMinus(
+  "input2500",
+  "hasil2500",
+  "copied2500",
+  2500
+);
+
+setupAutoMinus(
+  "input6500",
+  "hasil6500",
+  "copied6500",
+  6500
+);
 
 </script>
 
